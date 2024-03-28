@@ -7,10 +7,12 @@ import "./App.css";
 function App() {
   const [dice, setDice] = useState(allNewDice());
   const [tenzeis, setTenzeis] = useState(false);
+  const [tryCount, setTryCount] = useState(0);
 
   useEffect(() => {
     const isAllHolded = dice.every((die) => die.isHold);
-    const isAllSameValue = dice.every((die) => die.value);
+    const firstvalue = dice[0].value;
+    const isAllSameValue = dice.every((die) => die.value === firstvalue);
     if (isAllHolded && isAllSameValue) {
       setTenzeis(true);
     }
@@ -38,6 +40,7 @@ function App() {
         return die.id === id ? { ...die, isHold: !die.isHold } : die;
       });
     });
+    setTryCount((prevCount) => prevCount + 1);
   }
 
   function rollDice() {
@@ -48,6 +51,7 @@ function App() {
     } else {
       setTenzeis(false);
       setDice(allNewDice);
+      setTryCount(0);
     }
   }
 
@@ -62,6 +66,9 @@ function App() {
       <p className=" w-1/2 md:text-center text-2xl">
         Roll until all dice are the same. Click each die to freeze it at its
         current value between rolls.
+      </p>
+      <p className="number-of-tries font-bold text-3xl">
+        Number Of Tries: {tryCount}
       </p>
       <div className="game-holder flex items-center flex-col gap-4">
         <div className="grid grid-rows-2 grid-cols-5 gap-3">{diceElements}</div>
