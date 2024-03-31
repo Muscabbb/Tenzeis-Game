@@ -14,6 +14,10 @@ function App() {
       if (tryCount <= localStorage.getItem("bestTry")) {
         localStorage.setItem("bestTry", tryCount.toString());
       }
+      document
+        .querySelector(".game-patterns")
+        .querySelectorAll("button")
+        .forEach((el) => (el.style.pointerEvents = "none"));
     }
   }, [tenzeis]);
 
@@ -81,8 +85,8 @@ function App() {
   });
 
   return (
-    <div className="page-container w-full h-full dark:bg-gray-800">
-      <div className="container mx-auto h-lvh flex items-center flex-col justify-around">
+    <div className="page-container w-full h-full bg-slate-200 dark:bg-gray-800">
+      <div className="container h-lvh flex items-center flex-col justify-around">
         {tenzeis && <Confetti />}
         <div className="navbar w-full flex justify-between items-center px-5 self-start">
           <h1 className=" font-bold text-4xl text-center dark:text-white">
@@ -105,15 +109,15 @@ function App() {
             Current Number Of Tries: {tryCount}
           </p>
           <p className="number-of-tries font-bold text-3xl dark:text-neutral-300">
-            Best Number Of Tries: {localStorage.getItem("bestTry") || "Not Yet"}
+            Best Score: {localStorage.getItem("bestTry") || "Not Yet"}
           </p>
         </div>
         <div className="game-holder flex items-center flex-col gap-4">
-          <div className="grid grid-rows-2 grid-cols-5 gap-3">
+          <div className="game-patterns grid grid-rows-2 grid-cols-5 gap-3">
             {diceElements}
           </div>
           <button
-            className="game-checker text-4xl px-5 py-2 rounded-md"
+            className="game-checker text-4xl px-5 py-2 rounded-md focus:ring-4 ring-slate-900 dark:ring-white"
             onClick={rollDice}
           >
             {tenzeis ? "New Game" : "Take Another Roll"}
